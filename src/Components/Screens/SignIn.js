@@ -5,13 +5,14 @@ import awsExports from "../../aws-exports";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { AuthContext } from "../../Context/Contexts/AuthContext";
 import * as AuthActionCreators from "../../Context/ActionCreators/AuthActionCreater";
+import "../Styles/style.css";
 import {Button,Form,FormGroup,Label,Input,FormText,Toast,ToastBody,ToastHeader} from "reactstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 Amplify.configure(awsExports);
 
-export const SignIn = () => {
+export const SignIn = (props) => {
   const { authState, authDispatch } = useContext(AuthContext);
   const [errors, setError] = useState({});
   const [values, setValues] = useState({
@@ -74,70 +75,96 @@ export const SignIn = () => {
     }
   }
   return (
-    <>
-      <div
-        className="container"
-        style={{ margin: "auto", display: "flex", "justify-content": "center" }}
-      >
-        <Form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label for="userPassword">Email</Label>
-            <Input
-              type="email"
-              name="email"
-              id="userEmail"
-              placeholder="username"
-              value={values.email}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-            />
-            {errors.email && (
-              <p style={{ "text-align": "left" }}>{errors.email}</p>
-            )}
-          </FormGroup>
-          <FormGroup>
-            <Label for="userPassword">Password</Label>
-            <Input
-              type="password"
-              name="password"
-              id="userPassword"
-              value={values.password}
-              placeholder="password"
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              onBlur={() => {
-                valid();
-              }}
-            />
-            {errors.password && (
-              <p style={{ "text-align": "left" }}>{errors.password}</p>
-            )}
-          </FormGroup>
-          <Button
-            classname="row"
-            color="primary"
-            style={{ "margin-bottom": "10px" }}
-            size="sm"
-            block
-            type="submit"
-            disabled={JSON.stringify(errors) === "{}" ? false : true}
-            color={JSON.stringify(errors) === "{}" ? "success" : "danger"}
-          >
-            Log In
-          </Button>
-        </Form>
-      </div>
-      {errors.code && (
-        <div className="p-3 bg-danger my-2 rounded">
-          <Toast>
-            <ToastHeader>{errors.code}</ToastHeader>
-            <ToastBody>{errors.message}</ToastBody>
-          </Toast>
+    <div class="myContainer">
+      <div class="row myCard">
+        <div class="col-md-6">
+          <div class="myLeftCtn">
+            <form class="myForm text-center" onSubmit={handleSubmit}>
+              <header>Log In </header>
+              <div class="form-group">
+                <i class="fa fa-envelope"></i>
+                <Input
+                  class="myInput"
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="username"
+                  value={values.email}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+                {errors.email && (
+                  <p style={{ "text-align": "left" }}>{errors.email}</p>
+                )}
+              </div>
+              <div class="form-group">
+                <i class="fa fa-lock"></i>
+                <Input
+                  class="myInput"
+                  type="password"
+                  name="password"
+                  id="userPassword"
+                  value={values.password}
+                  placeholder="password"
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                  onBlur={() => {
+                    valid();
+                  }}
+                  onMouseLeave={() => {
+                    valid();
+                  }}
+                />
+                {errors.password && (
+                  <p style={{ "text-align": "left" }}>{errors.password}</p>
+                )}
+              </div>
+              <Button
+                classname="row"
+                color="primary"
+                style={{ "margin-bottom": "10px" }}
+                size="sm"
+                block
+                type="submit"
+                disabled={JSON.stringify(errors) === "{}" ? false : true}
+                color={JSON.stringify(errors) === "{}" ? "success" : "danger"}
+              >
+                Log In
+              </Button>
+              <Button
+                style={{ "margin-top": "-80" }}
+                size="sm"
+                block
+                color="primary"
+                type="button"
+                onClick={props.loggedIn}
+              >
+                {" "}
+                Sign Up{" "}
+              </Button>
+            </form>
+          </div>
         </div>
-      )}
-    </>
+        <div class="col-md-6">
+          <div class="myRightCtn">
+            <div class="box">
+              <header>V-transfer</header>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -6,41 +6,23 @@ import SignIn from "./SignIn";
 const Authenticate = () => {
   const [logIn, toggleLogIn] = useState(true);
 
+  function handleClick() {
+    const curr = logIn;
+    toggleLogIn(!curr);
+  }
+
   return (
-    <div className="container">
+    <div class="container">
       {console.log({ logIn })}
       {logIn ? (
-        <div className="container">
-          <h1 style={{ "text-align": "center", "margin-bottom": "20px" }}>
-            Sign In
-          </h1>
-          <SignIn />
-          <Button
-            style={{ margin: "auto", width: "25%" }}
-            size="sm"
-            block
-            color="primary"
-            onClick={() => toggleLogIn(false)}
-          >
-            Sign Up
-          </Button>
+        <div className="row ">
+          <div className="col">
+            <SignIn loggedIn={handleClick} />
+          </div>
         </div>
       ) : (
         <div className="container">
-          <h1 style={{ "text-align": "center", margin: "10px 0px 20px 0px" }}>
-            Sign Up
-          </h1>
-          <SignUp />
-          <Button
-            style={{ margin: "auto", width: "25%" }}
-            size="sm"
-            block
-            color="primary"
-            onClick={() => toggleLogIn(true)}
-          >
-            {" "}
-            Log In{" "}
-          </Button>
+          <SignUp loggedIn={handleClick} />
         </div>
       )}
     </div>

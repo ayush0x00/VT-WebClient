@@ -22,7 +22,7 @@ export const SignUp = (props) => {
   const [errors, setError] = useState({});
   const [cognitoInfo, setCognitoInfo] = useState({
     userConfirmed: "",
-    mailSent:false
+    mailSent: false,
   });
   const [cognitoUser, setCognitoUser] = useState({
     PK: "",
@@ -77,13 +77,15 @@ export const SignUp = (props) => {
         if (result.user.client) {
           setCognitoInfo({
             userConfirmed: false,
-            mailSent:true
+            mailSent: true,
           });
 
-            toast.info("A verification code is sent on your mail. Please verify.",{
-              autoClose:8000
-            })
-
+          toast.info(
+            "A verification code is sent on your mail. Please verify.",
+            {
+              autoClose: 8000,
+            }
+          );
         }
       } catch (error) {
         toast.error(error.message);
@@ -126,151 +128,163 @@ export const SignUp = (props) => {
     return isValid;
   };
   return (
-    <div
-      className="container"
-      style={{ margin: "auto", display: "flex", "justify-content": "center" }}
-    >
+    <div class="myContainer">
       {cognitoInfo.mailSent === true ? (
-        <div className="container">
-          <Form onSubmit={confirmSignUp}>
-            <FormGroup>
-              <div
-                className="container"
-                style={{
-                  margin: "auto",
-                  display: "flex",
-                  "align-text": "center",
-                  "justify-content": "center",
-                }}
-              >
-                <Label for="confirmCode">Verification code</Label>
+        <div class="myContainer">
+          <div class="myLeftCtn">
+            <Form onSubmit={confirmSignUp} className="myForm">
+              <FormGroup>
+                <div class="myContainer">
+                  <header>Verify code</header>
+                </div>
+                <div class="myContainer">
+                  <Input
+                    type="text"
+                    name="confirmCode"
+                    id="username"
+                    placeholder="code"
+                  />
+                </div>
+              </FormGroup>
+              <div class="myContainer">
+                <Button
+                  color="success"
+                  size="sm"
+                  block
+                  type="submit"
+                  disabled={JSON.stringify(errors) === "{}" ? false : true}
+                >
+                  Submit Code
+                </Button>
               </div>
-              <div
-                className="container"
-                style={{
-                  margin: "auto",
-                  display: "flex",
-                  "justify-content": "center",
-                  width: "35%",
-                }}
-              >
-                <Input
-                  type="text"
-                  name="confirmCode"
-                  id="username"
-                  placeholder="code"
-                />
-              </div>
-            </FormGroup>
-            <div
-              className="container"
-              style={{
-                display: "flex",
-                "justify-content": "center",
-                width: "25%",
-                "margin-bottom":"10px"
-              }}
-            >
-              <Button
-                color="success"
-                size="sm"
-                block
-                type="submit"
-                disabled={JSON.stringify(errors) === "{}" ? false : true}
-              >
-                Submit Code
-              </Button>
-
-            </div>
-          </Form>
+            </Form>
+          </div>
         </div>
       ) : (
-        <Form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label for="username">User name</Label>
-            <Input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="username"
-              value={values.username}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-            />
-            {errors.username && (
-              <p style={{ "text-align": "left" }}>{errors.username}</p>
-            )}
-          </FormGroup>
-          <FormGroup>
-            <Label for="userEmail">Email</Label>
-            <Input
-              type="text"
-              name="email"
-              id="userEmail"
-              placeholder="userEmail"
-              value={values.email}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-            />
-            {errors.email && (
-              <p style={{ "text-align": "left" }}>{errors.email}</p>
-            )}
-          </FormGroup>
-          <FormGroup>
-            <Label for="userPassword">Password</Label>
-            <Input
-              type="password"
-              name="password"
-              value={values.password}
-              id="userPassword"
-              placeholder="password"
-              onChange={(e) => {
-                handleChange(e);
-              }}
-            />
-            {errors.password && (
-              <p style={{ "text-align": "left" }}>{errors.password}</p>
-            )}
-          </FormGroup>
-          <FormGroup>
-            <Label for="confirmPassword">Confirm Password</Label>
-            <Input
-              type="password"
-              name="confirm_password"
-              id="confPassword"
-              placeholder="confirm password"
-              value={values.confirm_password}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              onBlur={() => {
-                valid();
-              }}
-              onMouseLeave={() => {
-                valid();
-              }}
-            />
-            {errors.confirm_password && (
-              <p style={{ "text-align": "left" }}>{errors.confirm_password}</p>
-            )}
-          </FormGroup>
-          <Button
-            style={{ "margin-bottom": "10px" }}
-            id="submitButton"
-            disabled={JSON.stringify(errors) === "{}" ? false : true}
-            color={JSON.stringify(errors) === "{}" ? "success" : "danger"}
-            size="sm"
-            block
-            type="submit"
-            onClick={() => {
-              valid();
-            }}
-          >
-            SignUp
-          </Button>
-        </Form>
+        <div class="myContainer">
+          <div class="row myCard">
+            <div class="col-md-6">
+              <div class="myLeftCtn">
+                <Form onSubmit={handleSubmit}>
+                  <header>Sign Up</header>
+                  <FormGroup>
+                    <Label for="username">User name</Label>
+                    <Input
+                      type="text"
+                      name="username"
+                      id="username"
+                      placeholder="username"
+                      value={values.username}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                    {errors.username && (
+                      <p style={{ "text-align": "left" }}>{errors.username}</p>
+                    )}
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="userEmail">Email</Label>
+                    <Input
+                      type="text"
+                      name="email"
+                      id="userEmail"
+                      placeholder="userEmail"
+                      value={values.email}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                    {errors.email && (
+                      <p style={{ "text-align": "left" }}>{errors.email}</p>
+                    )}
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="userPassword">Password</Label>
+                    <Input
+                      type="password"
+                      name="password"
+                      value={values.password}
+                      id="userPassword"
+                      placeholder="password"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                    {errors.password && (
+                      <p style={{ "text-align": "left" }}>{errors.password}</p>
+                    )}
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="confirmPassword">Confirm Password</Label>
+                    <Input
+                      type="password"
+                      name="confirm_password"
+                      id="confPassword"
+                      placeholder="confirm password"
+                      value={values.confirm_password}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      onBlur={() => {
+                        valid();
+                      }}
+                      onMouseLeave={() => {
+                        valid();
+                      }}
+                    />
+                    {errors.confirm_password && (
+                      <p style={{ "text-align": "left" }}>
+                        {errors.confirm_password}
+                      </p>
+                    )}
+                  </FormGroup>
+                  <Button
+                    style={{ "margin-bottom": "10px" }}
+                    id="submitButton"
+                    disabled={JSON.stringify(errors) === "{}" ? false : true}
+                    color={
+                      JSON.stringify(errors) === "{}" ? "success" : "danger"
+                    }
+                    size="sm"
+                    block
+                    type="submit"
+                    onClick={() => {
+                      valid();
+                    }}
+                  >
+                    SignUp
+                  </Button>
+                  <Button
+                    size="sm"
+                    block
+                    color="primary"
+                    onClick={props.loggedIn}
+                  >
+                    Log In
+                  </Button>
+                </Form>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="myRightCtn">
+                <div class="box">
+                  <header>V-transfer</header>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

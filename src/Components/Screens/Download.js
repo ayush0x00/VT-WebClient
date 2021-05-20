@@ -3,6 +3,7 @@ import {Button} from "reactstrap";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'react-toastify';
+import { Loading } from '../Loading';
 import { useHistory} from 'react-router-dom';
 if (
   (typeof TextDecoder === "undefined" || typeof TextEncoder === "undefined") &&
@@ -16,6 +17,7 @@ if (
 
 const Download = () => {
     const [download_url, setURL] = useState(undefined);
+    const [downloading, isDownloading]=useState(false)
     const { urlId } = useParams();
     const history=useHistory()
     async function getHash() {
@@ -31,7 +33,7 @@ const Download = () => {
                     if(response.data.statusCode==404){
                         toast.error(response.data.body);
                         history.push("/");
-                    }                    
+                    }
                     resolve(response.data.body);
                 },
                 (error) => {
@@ -44,6 +46,7 @@ const Download = () => {
     }
 
     async function downloadFile() {
+        isDownloading(true);
         document.title="Loading"
         const hash = await getHash();
         const url = `https://ipfs.io/ipfs/${hash}`;
@@ -54,15 +57,26 @@ const Download = () => {
         });
         var blob = new Blob([response.data], {
         type: `${response.headers["content-type"]}`,
-        });    
+        });
         document.title=`${process.env.REACT_APP_TITLE}`
         setURL(URL.createObjectURL(blob));
+        isDownloading(false)
     }
     return (
-        <div className="container pt-2 text-center">
-            <Button hidden={download_url?true:false} onClick={()=>{downloadFile()}}> Generate </Button>
-            <a hidden={download_url?false:true} className="btn btn-success" href={download_url}> View File </a>        
+      <div class="container">
+        {downloading?(
+          <div class="container">
+            <Loading />
+            <h1>Your file is being downloaded</h1>
+          </div>
+      ):
+        (
+          <div className="container pt-2 text-center">
+            <Button hidden={download_url?true:false} onClick={()=>{downloadFile()}}> Get File </Button>
+            <a hidden={download_url?false:true} className="btn btn-success" href={download_url}> View File </a>
         </div>
+      )}
+      </div>
     )
 };
 
