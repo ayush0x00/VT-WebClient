@@ -5,6 +5,7 @@ import awsExports from "../../aws-exports";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { AuthContext } from "../../Context/Contexts/AuthContext";
 import * as AuthActionCreators from "../../Context/ActionCreators/AuthActionCreater";
+import { Row, Col } from "reactstrap";
 import "../Styles/style.css";
 import {Button,Form,FormGroup,Label,Input,FormText,Toast,ToastBody,ToastHeader} from "reactstrap";
 import { toast } from "react-toastify";
@@ -26,6 +27,9 @@ export const SignIn = (props) => {
       ...values,
       [name]: value,
     });
+    if(values.email && values.password) {
+      valid();
+    }
   };
 
   function valid() {
@@ -76,11 +80,11 @@ export const SignIn = (props) => {
   }
   return (
     <div class="myContainer">
-      <div class="row myCard">
-        <div class="col-md-6">
-          <div class="myLeftCtn">
+      <Row>
+        <Col>
+          <div class="myLeftCtn" style={{ "margin-top": "80px" }}>
             <form class="myForm text-center" onSubmit={handleSubmit}>
-              <header>Log In </header>
+              <header class="text-center">Log In </header>
               <div class="form-group">
                 <i class="fa fa-envelope"></i>
                 <Input
@@ -110,12 +114,6 @@ export const SignIn = (props) => {
                   onChange={(e) => {
                     handleChange(e);
                   }}
-                  onBlur={() => {
-                    valid();
-                  }}
-                  onMouseLeave={() => {
-                    valid();
-                  }}
                 />
                 {errors.password && (
                   <p style={{ "text-align": "left" }}>{errors.password}</p>
@@ -124,17 +122,19 @@ export const SignIn = (props) => {
               <Button
                 classname="row"
                 color="primary"
-                style={{ "margin-bottom": "10px" }}
                 size="sm"
                 block
                 type="submit"
                 disabled={JSON.stringify(errors) === "{}" ? false : true}
                 color={JSON.stringify(errors) === "{}" ? "success" : "danger"}
+                onClick={() => {
+                  valid();
+                }}
+
               >
                 Log In
               </Button>
               <Button
-                style={{ "margin-top": "-80" }}
                 size="sm"
                 block
                 color="primary"
@@ -146,24 +146,8 @@ export const SignIn = (props) => {
               </Button>
             </form>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div class="myRightCtn">
-            <div class="box">
-              <header>V-transfer</header>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
     </div>
   );
 };

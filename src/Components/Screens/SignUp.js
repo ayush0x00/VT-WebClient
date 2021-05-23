@@ -6,7 +6,7 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import axios from "axios";
 import { AuthContext } from "../../Context/Contexts/AuthContext";
 import * as AuthActionCreators from "../../Context/ActionCreators/AuthActionCreater";
-import {Button,Form,FormGroup,Label,Input,FormText,Toast,ToastBody,ToastHeader} from "reactstrap";
+import {Button,Form,FormGroup,Label,Input,FormText,Toast,ToastBody,ToastHeader,Row,Col} from "reactstrap";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 Amplify.configure(awsExports);
@@ -20,6 +20,7 @@ export const SignUp = (props) => {
     confirm_password: "",
   });
   const [errors, setError] = useState({});
+
   const [cognitoInfo, setCognitoInfo] = useState({
     userConfirmed: "",
     mailSent: false,
@@ -53,7 +54,10 @@ export const SignUp = (props) => {
       ...values,
       [name]: value,
     });
+
   };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     {
@@ -125,10 +129,11 @@ export const SignUp = (props) => {
       isValid = false;
     }
     setError(errors);
+
     return isValid;
   };
   return (
-    <div class="myContainer">
+    <div class="outercontainer">
       {cognitoInfo.mailSent === true ? (
         <div class="myContainer">
           <div class="myLeftCtn">
@@ -162,8 +167,9 @@ export const SignUp = (props) => {
         </div>
       ) : (
         <div class="myContainer">
-          <div class="row myCard">
-            <div class="col-md-6">
+
+          <Row>
+            <Col>
               <div class="myLeftCtn">
                 <Form onSubmit={handleSubmit}>
                   <header>Sign Up</header>
@@ -178,6 +184,7 @@ export const SignUp = (props) => {
                       onChange={(e) => {
                         handleChange(e);
                       }}
+
                     />
                     {errors.username && (
                       <p style={{ "text-align": "left" }}>{errors.username}</p>
@@ -194,6 +201,7 @@ export const SignUp = (props) => {
                       onChange={(e) => {
                         handleChange(e);
                       }}
+
                     />
                     {errors.email && (
                       <p style={{ "text-align": "left" }}>{errors.email}</p>
@@ -210,6 +218,7 @@ export const SignUp = (props) => {
                       onChange={(e) => {
                         handleChange(e);
                       }}
+
                     />
                     {errors.password && (
                       <p style={{ "text-align": "left" }}>{errors.password}</p>
@@ -226,12 +235,7 @@ export const SignUp = (props) => {
                       onChange={(e) => {
                         handleChange(e);
                       }}
-                      onBlur={() => {
-                        valid();
-                      }}
-                      onMouseLeave={() => {
-                        valid();
-                      }}
+
                     />
                     {errors.confirm_password && (
                       <p style={{ "text-align": "left" }}>
@@ -240,18 +244,15 @@ export const SignUp = (props) => {
                     )}
                   </FormGroup>
                   <Button
-                    style={{ "margin-bottom": "10px" }}
                     id="submitButton"
-                    disabled={JSON.stringify(errors) === "{}" ? false : true}
-                    color={
-                      JSON.stringify(errors) === "{}" ? "success" : "danger"
-                    }
+                    color="success"
                     size="sm"
                     block
                     type="submit"
                     onClick={() => {
                       valid();
                     }}
+
                   >
                     SignUp
                   </Button>
@@ -265,25 +266,8 @@ export const SignUp = (props) => {
                   </Button>
                 </Form>
               </div>
-            </div>
-            <div class="col-md-6">
-              <div class="myRightCtn">
-                <div class="box">
-                  <header>V-transfer</header>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </div>
       )}
     </div>
