@@ -12,16 +12,14 @@ const Authenticate = () => {
   }
 
   return (
-    <div class="container">
+    <div class="d-flex flex-column justify-content-center vh-100">
       {console.log({ logIn })}
       {logIn ? (
-        <div className="row ">
-          <div className="col">
-            <SignIn loggedIn={handleClick} />
-          </div>
-        </div>
+        <>
+          <SignIn loggedIn={handleClick} />
+        </>
       ) : (
-        <div className="container">
+        <div class="container">
           <SignUp loggedIn={handleClick} />
         </div>
       )}

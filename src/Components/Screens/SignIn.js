@@ -6,7 +6,6 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { AuthContext } from "../../Context/Contexts/AuthContext";
 import * as AuthActionCreators from "../../Context/ActionCreators/AuthActionCreater";
 import { Row, Col } from "reactstrap";
-import "../Styles/style.css";
 import {Button,Form,FormGroup,Label,Input,FormText,Toast,ToastBody,ToastHeader} from "reactstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -27,7 +26,7 @@ export const SignIn = (props) => {
       ...values,
       [name]: value,
     });
-    if(values.email && values.password) {
+    if (values.email && values.password) {
       valid();
     }
   };
@@ -79,75 +78,82 @@ export const SignIn = (props) => {
     }
   }
   return (
-    <div class="myContainer">
-      <Row>
-        <Col>
-          <div class="myLeftCtn" style={{ "margin-top": "80px" }}>
-            <form class="myForm text-center" onSubmit={handleSubmit}>
-              <header class="text-center">Log In </header>
-              <div class="form-group">
-                <i class="fa fa-envelope"></i>
-                <Input
-                  class="myInput"
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="username"
-                  value={values.email}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-                {errors.email && (
-                  <p style={{ "text-align": "left" }}>{errors.email}</p>
-                )}
-              </div>
-              <div class="form-group">
-                <i class="fa fa-lock"></i>
-                <Input
-                  class="myInput"
-                  type="password"
-                  name="password"
-                  id="userPassword"
-                  value={values.password}
-                  placeholder="password"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-                {errors.password && (
-                  <p style={{ "text-align": "left" }}>{errors.password}</p>
-                )}
-              </div>
-              <Button
-                classname="row"
-                color="primary"
-                size="sm"
-                block
-                type="submit"
-                disabled={JSON.stringify(errors) === "{}" ? false : true}
-                color={JSON.stringify(errors) === "{}" ? "success" : "danger"}
-                onClick={() => {
-                  valid();
-                }}
+    <div class="container">
+      <div class="row ">
+        <header
+          class="container text-center vh-150 "
+          style={{ "font-size": "40px" }}
+        >
+          Log in
+        </header>
+      </div>
+      <div class="d-flex justify-content-center ">
+        <form
+          class="form-signin d-flex flex-column justify-content-center"
+          onSubmit={handleSubmit}
+        >
+          <i class="fa fa-envelope text-center mb-2"></i>
+          <label for="email" class="sr-only">
+            Email address
+          </label>
+          <input
+            class="form-control mb-2"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="username"
+            value={values.email}
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
+          {errors.email && (
+            <p style={{ "text-align": "left" }}>{errors.email}</p>
+          )}
 
-              >
-                Log In
-              </Button>
-              <Button
-                size="sm"
-                block
-                color="primary"
-                type="button"
-                onClick={props.loggedIn}
-              >
-                {" "}
-                Sign Up{" "}
-              </Button>
-            </form>
-          </div>
-        </Col>
-      </Row>
+          <i class="fa fa-lock text-center mb-2"></i>
+          <Input
+            class="form-control mb-2"
+            type="password"
+            name="password"
+            id="userPassword"
+            value={values.password}
+            placeholder="password"
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
+          {errors.password && (
+            <p style={{ "text-align": "left" }}>{errors.password}</p>
+          )}
+
+          <Button
+            style={{ "margin-top": "10px" }}
+            color="primary"
+            size="sm"
+            block
+            type="submit"
+            disabled={JSON.stringify(errors) === "{}" ? false : true}
+            color={JSON.stringify(errors) === "{}" ? "success" : "danger"}
+            onClick={() => {
+              valid();
+            }}
+          >
+            Log In
+          </Button>
+          <Button
+            size="sm"
+            block
+            style={{ "margin-top": "10px" }}
+            color="primary"
+            type="button"
+            onClick={props.loggedIn}
+          >
+            {" "}
+            Sign Up{" "}
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

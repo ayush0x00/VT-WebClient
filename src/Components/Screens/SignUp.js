@@ -19,6 +19,7 @@ export const SignUp = (props) => {
     password: "",
     confirm_password: "",
   });
+  const [hasClicked, setHasClicked] = useState(false);
   const [errors, setError] = useState({});
 
   const [cognitoInfo, setCognitoInfo] = useState({
@@ -45,7 +46,9 @@ export const SignUp = (props) => {
       history.push("/dashboard");
       toast.success("Email confirmed");
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        autoClose: 8000,
+      });
     }
   }
   const handleChange = (event) => {
@@ -54,12 +57,11 @@ export const SignUp = (props) => {
       ...values,
       [name]: value,
     });
-
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (errors.hasError) return;
     {
       const name = e.target[0].value;
       const username = e.target[1].value;
@@ -97,6 +99,7 @@ export const SignUp = (props) => {
     }
   };
   const valid = () => {
+    setHasClicked(true);
     let errors = {};
     var isValid = true;
     const pattern = new RegExp(
@@ -128,51 +131,62 @@ export const SignUp = (props) => {
       errors.confirm_password = "Passwords do not match";
       isValid = false;
     }
-    setError(errors);
+    errors.hasError = !isValid;
 
+    setError(errors);
     return isValid;
   };
   return (
-    <div class="outercontainer">
-      {cognitoInfo.mailSent === true ? (
-        <div class="myContainer">
-          <div class="myLeftCtn">
-            <Form onSubmit={confirmSignUp} className="myForm">
-              <FormGroup>
-                <div class="myContainer">
-                  <header>Verify code</header>
-                </div>
-                <div class="myContainer">
-                  <Input
-                    type="text"
-                    name="confirmCode"
-                    id="username"
-                    placeholder="code"
-                  />
-                </div>
-              </FormGroup>
-              <div class="myContainer">
-                <Button
-                  color="success"
-                  size="sm"
-                  block
-                  type="submit"
-                  disabled={JSON.stringify(errors) === "{}" ? false : true}
-                >
-                  Submit Code
-                </Button>
-              </div>
-            </Form>
+    <div class="container">
+      {cognitoInfo.mailSent === true && errors.hasError === false ? (
+        <>
+          <div class="row  mb-3">
+            <header
+              class="container text-center vh-150 mt-n3"
+              style={{ "font-size": "40px" }}
+            >
+              Confirm Code
+            </header>
           </div>
-        </div>
+          <div class="myContainer">
+            <div class="d-flex justify-content-center">
+              <Form onSubmit={confirmSignUp}>
+                <FormGroup>
+                  <div class="myContainer">
+                    <Input
+                      type="text"
+                      name="confirmCode"
+                      id="username"
+                      placeholder="code"
+                    />
+                  </div>
+                </FormGroup>
+                <div class="myContainer">
+                  <Button color="success" size="sm" block type="submit">
+                    Submit Code
+                  </Button>
+                  <a href="/authenticate" class="text-center">
+                    Log In
+                  </a>
+                </div>
+              </Form>
+            </div>
+          </div>
+        </>
       ) : (
-        <div class="myContainer">
-
+        <div class="container">
+          <div class="row ">
+            <header
+              class="container text-center vh-150 mt-n3"
+              style={{ "font-size": "40px" }}
+            >
+              Sign Up
+            </header>
+          </div>
           <Row>
             <Col>
-              <div class="myLeftCtn">
+              <div class="d-flex justify-content-center  mt-3">
                 <Form onSubmit={handleSubmit}>
-                  <header>Sign Up</header>
                   <FormGroup>
                     <Label for="username">User name</Label>
                     <Input
@@ -184,7 +198,6 @@ export const SignUp = (props) => {
                       onChange={(e) => {
                         handleChange(e);
                       }}
-
                     />
                     {errors.username && (
                       <p style={{ "text-align": "left" }}>{errors.username}</p>
@@ -201,7 +214,6 @@ export const SignUp = (props) => {
                       onChange={(e) => {
                         handleChange(e);
                       }}
-
                     />
                     {errors.email && (
                       <p style={{ "text-align": "left" }}>{errors.email}</p>
@@ -218,7 +230,6 @@ export const SignUp = (props) => {
                       onChange={(e) => {
                         handleChange(e);
                       }}
-
                     />
                     {errors.password && (
                       <p style={{ "text-align": "left" }}>{errors.password}</p>
@@ -235,7 +246,6 @@ export const SignUp = (props) => {
                       onChange={(e) => {
                         handleChange(e);
                       }}
-
                     />
                     {errors.confirm_password && (
                       <p style={{ "text-align": "left" }}>
@@ -243,6 +253,7 @@ export const SignUp = (props) => {
                       </p>
                     )}
                   </FormGroup>
+                  {console.log({ errors })}
                   <Button
                     id="submitButton"
                     color="success"
@@ -252,7 +263,6 @@ export const SignUp = (props) => {
                     onClick={() => {
                       valid();
                     }}
-
                   >
                     SignUp
                   </Button>
