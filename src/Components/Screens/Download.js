@@ -7,8 +7,6 @@ import { useHistory, Redirect } from "react-router-dom";
 import { css } from "@emotion/react";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
-// Can be a string as well. Need to ensure each key-value pair ends with ;
-
 if (
   (typeof TextDecoder === "undefined" || typeof TextEncoder === "undefined") &&
   typeof require !== "undefined"
@@ -16,18 +14,13 @@ if (
   global.TextDecoder = require("util").TextDecoder;
   global.TextEncoder = require("util").TextEncoder;
 }
-// const ipfs = require("ipfs-http-client");
-// const client = ipfs({ host: "ipfs.infura.io", port: 5001, protcol: "https" });
 
 const Download = () => {
   const [download_url, setURL] = useState(undefined);
   const [isLoading, changeIsLoading] = useState(false);
-
   const { urlId } = useParams();
   const history = useHistory();
-  const sleep = (milliseconds) => {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
-  };
+
   async function getHash() {
     return new Promise((resolve, reject) => {
       axios
@@ -94,13 +87,14 @@ const Download = () => {
       ) : null}
       {!download_url && !isLoading ? (
         <Button
+          color="success"
           hidden={download_url ? true : false}
           onClick={() => {
             downloadFile();
           }}
         >
           {" "}
-          Generate{" "}
+          Download{" "}
         </Button>
       ) : null}
     </div>
