@@ -5,7 +5,21 @@ import awsExports from "../../aws-exports";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { AuthContext } from "../../Context/Contexts/AuthContext";
 import * as AuthActionCreators from "../../Context/ActionCreators/AuthActionCreater";
-import {Button,Form,FormGroup,Label,Input,FormText,Toast,ToastBody,ToastHeader} from "reactstrap";
+import { Link } from "react-router-dom";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  Toast,
+  ToastBody,
+  ToastHeader,
+  Modal,
+  ModalBody,
+  ModalHeader,
+} from "reactstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
@@ -14,6 +28,9 @@ Amplify.configure(awsExports);
 export const SignIn = () => {
   const { authState, authDispatch } = useContext(AuthContext);
   const [errors, setError] = useState({});
+  const [modal, setModal] = useState(false);
+  const [mailSent, hasSentMail] = useState(false);
+  const toggle = () => setModal(!modal);
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -37,6 +54,21 @@ export const SignIn = () => {
     }
     setError(errors);
   }
+
+  const sendMail = (e) => {
+    e.preventDefault();
+    const user = e.target[0].value;
+    Auth.forgotPassword(user)
+      .then((data) => {
+        toast.info("Mail with verification code sent");
+        hasSentMail(true);
+        console.log(data);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
   async function handleSubmit(e) {
     e.preventDefault();
     const email = e.target[0].value;
@@ -74,7 +106,21 @@ export const SignIn = () => {
     }
   }
   return (
-    <>
+    <div>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader> Get password reset code</ModalHeader>
+        <ModalBody>
+          <Form onSubmit={sendMail}>
+            <FormGroup>
+              <Input type="text" name="user" placeholder="email address" />
+            </FormGroup>
+            <Button type="submit" color="primary">
+              Get code
+            </Button>
+            {mailSent ? history.push("/changepwd") : null}
+          </Form>
+        </ModalBody>
+      </Modal>
       <div
         className="container"
         style={{ margin: "auto", display: "flex", "justify-content": "center" }}
@@ -111,6 +157,19 @@ export const SignIn = () => {
                 valid();
               }}
             />
+            <div
+              class="container text-center"
+              style={{ margin: "auto", width: "100%" }}
+            >
+              <a
+                href="#"
+                onClick={() => {
+                  toggle();
+                }}
+              >
+                Forgot password?
+              </a>
+            </div>
             {errors.password && (
               <p style={{ "text-align": "left" }}>{errors.password}</p>
             )}
@@ -137,7 +196,7 @@ export const SignIn = () => {
           </Toast>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

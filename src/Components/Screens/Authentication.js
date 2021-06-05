@@ -8,7 +8,6 @@ const Authenticate = () => {
 
   return (
     <div className="container">
-      {console.log({ logIn })}
       {logIn ? (
         <div className="container">
           <h1 style={{ "text-align": "center", "margin-bottom": "20px" }}>

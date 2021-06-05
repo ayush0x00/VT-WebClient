@@ -5,6 +5,7 @@ import Files from "./Components/Screens/Files";
 import Profile from "./Components/Screens/Profile";
 import About from "./Components/Screens/About";
 import Authenticate from "./Components/Screens/Authentication"
+import ForgotPassword from "./Components/Screens/ForgotPassword"
 import { useContext } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { AuthContext } from "./Context/Contexts/AuthContext";
@@ -37,6 +38,7 @@ const Routing = () => {
         <Switch>
           <Route exact path="/about" component={About} />
           <Route exact path="/authenticate" component={Authenticate}/>
+          <Route exact path="/changepwd" component={ForgotPassword}/>
           <Route exact path="/:urlId" component={Download}/>
           <Route exact path="/" component={Homepage} />
         </Switch>
