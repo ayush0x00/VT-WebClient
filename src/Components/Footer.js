@@ -263,8 +263,8 @@ const Footer = () => {
 
       <div className="container pt-3 pb-3">
         <div className="row justify-content-center text-center">
-          <div className="col-6 col-sm-3 d-flex justify-content-around">
-            <a href="#" target="_blank" className="text-secondary">
+          <div className="col-6 col-sm-3 d-flex justify-content-around  align-items-center">
+            <a href="https://github.com/code-gambit" target="_blank" className="text-secondary">
               <span className="fa fa-github fa-lg"></span>
             </a>
             <a href="#" target="_blank" className="text-info">
@@ -278,33 +278,30 @@ const Footer = () => {
             </a>
           </div>
           {authState.auth.PK ? (
-            <div className="col-4 col-sm-2 d-flex justify-content-around">
+            <div className="col-4 col-sm-2 d-flex justify-content-between  align-items-center">
               <span onClick={toggleLightMode}>
                 {!isDarkMode ? (
                   <span className="fa fa-moon-o fa-lg"></span>
                 ) : (
                   <span className="fa fa-sun-o fa-lg"></span>
                 )}
+
               </span>
-              <div
-                class="button"
-                onClick={() => {
+                <span onClick={() => {
                   toggleMain();
-                }}
-              >
-                <span className="fa fa-cog fa-lg"></span>
-              </div>
-              <NavLink to="/">
+                }} className="fa fa-cog fa-lg"></span>
+
+
                 <span
-                  className="fa fa-sign-out fa-lg"
+                  className="fa fa-sign-out fa-lg "
                   onClick={handleLogout}
                 ></span>
-              </NavLink>
+
             </div>
           ) : (
             <div></div>
           )}
-          <div className="col-12 col-sm-4">v-transfer-demo@gmail.com</div>
+          <div className="col-12 col-sm-4 d-flex  align-items-center justify-content-center">v-transfer-demo@gmail.com</div>
         </div>
       </div>
     </div>
